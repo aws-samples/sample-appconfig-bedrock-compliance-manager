@@ -4,7 +4,17 @@
 
 ## Introduction
 
-This solution serves as a foundational framework that can be customized and expanded to develop robust solution to leverage Gen AI capabilities and use it to manange your compliance through AWS Config and Amazon Bedrock.
+This pattern presents an innovative solution that integrates Amazon Bedrock with AWS Config rules to enhance EC2 instance compliance management. The approach leverages advanced generative AI capabilities to provide tailored recommendations aligned with the AWS Well-Architected Framework, ensuring optimal instance type selection and overall system efficiency.Key features of this pattern include: 
+
+Automated Compliance Monitoring: AWS Config rules continuously assess EC2 instances against predefined criteria for desired instance types.
+
+AI-Driven Recommendations: Amazon Bedrock's generative AI models analyze infrastructure patterns and provide intelligent suggestions for improvements based on best practices outlined in the AWS Well-Architected Framework.
+
+Remediation: Amazon Bedrock action groups enable automated remediation steps, swiftly addressing non-compliant instances and minimizing potential performance or cost inefficiencies.
+
+Scalable and Adaptable: The solution is designed to scale with your infrastructure and adapt to evolving cloud architecture needs.
+
+Enhanced Security Recommendations: Compliance with well-architected principles contributes to improved security posture and overall system performance.
  
 
 ## Architecture
@@ -38,11 +48,11 @@ This solution serves as a foundational framework that can be customized and expa
 
 1. Clone this repository using below command 
 ```
-git clone "git@github.com:aws-samples/sample-appconfig-bedrock-compliance-manager.git"
+git clone "git@github.com:aws-samples/sample-awsconfig-bedrock-compliance-manager.git"
 ```
 2. Navigate into the project base directory
 ```
-cd sample-appconfig-bedrock-compliance-manager
+cd sample-awsconfig-bedrock-compliance-manager
 ```
 3. Initialize terraform 
 ```
@@ -69,7 +79,7 @@ For the cleanup of the insfrastructure please follow below steps:
 1. Empty the datsource S3 Bucket
 2. Navigate into the project base directory
 ``` 
-cd sample-appconfig-bedrock-compliance-manager
+cd sample-awsconfig-bedrock-compliance-manager
 ```
 3. The flag --auto-approve is optional. If you don't use that, you will be prompted to enter a confirmation manually (Y/N) 
 terraform --destroy --auto-approve
