@@ -1,0 +1,251 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "EC2 Instance Compliance Checker",
+        "description": "API for checking and pausing non-compliant EC2 instances.",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/check-non-compliant-instances": {
+            "post": {
+                "summary": "Checks non-compliant EC2 instances",
+                "description": "Checks non-compliant EC2 instances based on the provided AWS Config rule.",
+                "requestBody": {
+                    "description": "Request to check for non-compliant EC2 instances.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "config_rule": {
+                                        "type": "string",
+                                        "example": "desired-instance-type"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response in Bedrock format with non-compliant instance IDs.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "messageVersion": {
+                                            "type": "string",
+                                            "example": "1.0"
+                                        },
+                                        "response": {
+                                            "type": "object",
+                                            "properties": {
+                                                "actionGroup": {
+                                                    "type": "string",
+                                                    "example": "security-bot-action-group"
+                                                },
+                                                "apiPath": {
+                                                    "type": "string",
+                                                    "example": "/check-non-compliant-instances"
+                                                },
+                                                "httpMethod": {
+                                                    "type": "string",
+                                                    "example": "POST"
+                                                },
+                                                "httpStatusCode": {
+                                                    "type": "integer",
+                                                    "example": 200
+                                                },
+                                                "responseBody": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "application/json": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "body": {
+                                                                    "type": "string",
+                                                                    "example": "{\"message\": \"Non-compliant instances found.\", \"instance_ids\": [\"i-0123456789abcdef0\"]}"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/pause-non-compliant-instances": {
+            "post": {
+                "summary": "Pause/Stops non-compliant EC2 instances",
+                "description": "Pauses/Stops only the non-compliant EC2 instances.",
+                "requestBody": {
+                    "description": "Request to pause non-compliant EC2 instances.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "instance_ids": {
+                                        "type": "array",
+                                        "description": "List of non-compliant EC2 instance IDs to pause.",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "i-0123456789abcdef0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response in Bedrock format with the status of each instance.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "messageVersion": {
+                                            "type": "string",
+                                            "example": "1.0"
+                                        },
+                                        "response": {
+                                            "type": "object",
+                                            "properties": {
+                                                "actionGroup": {
+                                                    "type": "string",
+                                                    "example": "security-bot-action-group"
+                                                },
+                                                "apiPath": {
+                                                    "type": "string",
+                                                    "example": "/pause-non-compliant-instances"
+                                                },
+                                                "httpMethod": {
+                                                    "type": "string",
+                                                    "example": "POST"
+                                                },
+                                                "httpStatusCode": {
+                                                    "type": "integer",
+                                                    "example": 200
+                                                },
+                                                "responseBody": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "application/json": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "body": {
+                                                                    "type": "string",
+                                                                    "example": "{\"message\": \"Non-compliant instances have been processed for pausing.\", \"instance_status\": [\"Instance i-0123456789abcdef0 paused\", \"Instance i-0123456789abcdef1 already paused\"]}"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/remediate-instances": {
+            "post": {
+                "summary": "Remediate non-compliant EC2 instances",
+                "description": "Remediates non-compliant EC2 instances by stopping, changing the instance type based on the AWS Config rule, and restarting.",
+                "requestBody": {
+                    "description": "Request to remediate non-compliant EC2 instances.",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "config_rule": {
+                                        "type": "string",
+                                        "description": "Name of the AWS Config rule to get the desired instance type.",
+                                        "example": "desired-instance-type"
+                                    },
+                                    "instance_ids": {
+                                        "type": "array",
+                                        "description": "List of non-compliant EC2 instance IDs to remediate.",
+                                        "items": {
+                                            "type": "string",
+                                            "example": "i-0123456789abcdef0"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Response in Bedrock format with the status of each instance remediation.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "messageVersion": {
+                                            "type": "string",
+                                            "example": "1.0"
+                                        },
+                                        "response": {
+                                            "type": "object",
+                                            "properties": {
+                                                "actionGroup": {
+                                                    "type": "string",
+                                                    "example": "security-bot-action-group"
+                                                },
+                                                "apiPath": {
+                                                    "type": "string",
+                                                    "example": "/remediate-instances"
+                                                },
+                                                "httpMethod": {
+                                                    "type": "string",
+                                                    "example": "POST"
+                                                },
+                                                "httpStatusCode": {
+                                                    "type": "integer",
+                                                    "example": 200
+                                                },
+                                                "responseBody": {
+                                                    "type": "object",
+                                                    "properties": {
+                                                        "application/json": {
+                                                            "type": "object",
+                                                            "properties": {
+                                                                "body": {
+                                                                    "type": "string",
+                                                                    "example": "{\"message\": \"Non-compliant instances have been remediated.\", \"instance_status\": [\"Instance i-0123456789abcdef0 instance type changed and restarted\"]}"
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
